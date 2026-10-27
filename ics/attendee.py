@@ -69,6 +69,24 @@ class Person(object):
         """Returns the attendee in an ContentLine format."""
         return str(self.serialize())
 
+    def __eq__(self, other):
+        if not isinstance(other, Person):
+            return False
+        return (
+            self.email == other.email and
+            self.common_name == other.common_name and
+            self.dir == other.dir and
+            self.sent_by == other.sent_by and
+            self.extra == other.extra
+        )
+
+    def __hash__(self):
+        return hash((
+            self.email,
+            self.common_name,
+            self.dir,
+            self.sent_by
+        ))
 
 class Organizer(Person):
     class Meta:
@@ -90,3 +108,24 @@ class Attendee(Person):
         name = 'ATTENDEE'
         parser = AttendeeParser
         serializer = AttendeeSerializer
+
+    def __eq__(self, other):
+        if not isinstance(other, Attendee):
+            return False
+        if not Person.__eq__(self, other):
+            return False
+        return (
+            self.rsvp == other.rsvp and
+            self.role == other.role and 
+            self.partstat == other.partstat and
+            self.cutype == other.cutype
+        )
+
+    def __hash__(self):
+        return hash((
+            Person.__hash__(self),
+            self.rsvp,
+            self.role,
+            self.partstat,
+            self.cutype
+        ))
