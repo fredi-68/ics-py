@@ -2,7 +2,6 @@
 import sys
 
 from setuptools import setup
-from setuptools.command.test import test as TestCommand
 
 from ics.__meta__ import __author__, __license__, __title__, __version__
 
@@ -11,25 +10,6 @@ with open("requirements.txt") as f:
 
 with open("dev/requirements-test.txt") as f:
     tests_require = [line for line in f if line and line[0] not in "#-"]
-
-
-class PyTest(TestCommand):
-
-    def finalize_options(self):
-        TestCommand.finalize_options(self)
-        self.test_args = [
-            '--cov',
-            'ics',
-            'ics/',
-            'tests/'
-        ]
-        self.test_suite = True
-
-    def run_tests(self):
-        # import here, cause outside the eggs aren't loaded
-        import pytest
-        errno = pytest.main(self.test_args)
-        sys.exit(errno)
 
 
 def readme():
@@ -66,8 +46,5 @@ setup(
     license=__license__,
     packages=['ics'],
     include_package_data=True,
-    cmdclass={'test': PyTest},
-    tests_require=tests_require,
-    test_suite="py.test",
     zip_safe=False,
 )
