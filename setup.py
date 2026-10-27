@@ -3,7 +3,14 @@ import sys
 
 from setuptools import setup
 
-from ics.__meta__ import __author__, __license__, __title__, __version__
+#from ics.__meta__ import __author__, __license__, __title__, __version__
+
+# fuck it
+__title__ = "ics"
+__version__ = "0.7.4"
+__author__ = "Nikita Marchant"
+__license__ = "Apache License, Version 2.0"
+__copyright__ = "Copyright 2013-2020 Nikita Marchant and individual contributors"
 
 with open("requirements.txt") as f:
     install_requires = [line for line in f if line and line[0] not in "#-"]
